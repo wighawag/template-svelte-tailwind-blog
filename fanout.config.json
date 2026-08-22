@@ -1,0 +1,3 @@
+{
+  "verify": "pnpm install && pnpm --filter ./web check && pnpm --filter ./web test"
+}
