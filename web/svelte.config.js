@@ -3,7 +3,7 @@ import {execSync} from 'node:child_process';
 import {vitePreprocess} from '@sveltejs/vite-plugin-svelte';
 import {mdsvex} from 'mdsvex';
 import vitepressContainers from './src/lib/markdown/vitepressContainers.js';
-import rehypeSlug from 'rehype-slug';
+import {headings, codeGroups, highlight, separateContainerLines} from './src/lib/markdown/docsPlugins.js';
 
 let VERSION = `timestamp_${Date.now()}`;
 try {
@@ -33,21 +33,21 @@ const config = {
 	// for more information about preprocessors
 	preprocess: [
 		vitePreprocess(),
+		separateContainerLines(),
 		mdsvex({
 			extensions: ['.svx', '.md'],
-			remarkPlugins: [vitepressContainers],
-			// gives headings an id (## Some Title -> id="some-title") so in-page
-			// anchor links to them resolve
-			rehypePlugins: [rehypeSlug],
+			remarkPlugins: [codeGroups, vitepressContainers, headings],
+			highlight: {highlighter: highlight},
 		}),
 	],
 	kit: {
+		prerender: {handleHttpError: 'warn', handleMissingId: 'warn', handleUnseenRoutes: 'ignore'},
 		version: {name: VERSION},
 		adapter: adapter({
 			assets: 'build',
 			pages: 'build',
 			fallback: '404.html', // SPA fallback - serves as 404 page on IPFS/static hosts
-			strict: false,
+			strict: true,
 		}),
 		serviceWorker: {
 			// we handle it ourselves: the worker is src/service-worker/index.ts and

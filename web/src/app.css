@@ -45,3 +45,15 @@
 	border-color: #f87171; /* red-400 */
 	background: rgba(248, 113, 113, 0.1);
 }
+
+/* SPIKE: shiki dual theme, code groups, containers */
+.shiki { padding: 0.75rem 1rem; border-radius: 0.5rem; overflow-x: auto; }
+@media (prefers-color-scheme: dark) { .shiki, .shiki span { color: var(--shiki-dark) !important; background-color: var(--shiki-dark-bg) !important; } }
+.code-group > input { display: none; }
+.code-group > label { display: inline-block; padding: 0.25rem 0.75rem; cursor: pointer; opacity: 0.6; }
+.code-group > input:checked + label { opacity: 1; border-bottom: 2px solid currentColor; }
+.code-group-panels > pre { display: none; }
+.code-group > input:nth-of-type(1):checked ~ .code-group-panels > pre:nth-of-type(1),
+.code-group > input:nth-of-type(2):checked ~ .code-group-panels > pre:nth-of-type(2),
+.code-group > input:nth-of-type(3):checked ~ .code-group-panels > pre:nth-of-type(3),
+.code-group > input:nth-of-type(4):checked ~ .code-group-panels > pre:nth-of-type(4) { display: block; }
